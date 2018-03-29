@@ -1,11 +1,10 @@
-import http from 'http'
+import axios from 'axios'
 
 describe('Hello, World!', () => {
   it('should return "Hello, World!" on / request', () => {
-    http.get('http://localhost:3000/', response => {
-      let data = '';
-      response.on('data', _data => (data += _data));
-      response.on('end', () => expect(data).toEqual('Hello, World!'));
+    axios.get('http://localhost:3000/')
+    .then(response => {
+      expect(response.data).toEqual('Hello, World!')
     });
   })
 })

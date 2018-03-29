@@ -15,6 +15,7 @@
 	"author": "sh7dm",
 	"license": "MIT",
 	"devDependencies": {
+		"axios": "^0.18.0",
 		"babel-core": "^6.26.0",
 		"babel-eslint": "^8.2.1",
 		"babel-jest": "^22.2.2",
@@ -31,6 +32,7 @@
 	},
 	"dependencies": {
 		"@koa/cors": "2",
+		"jsonwebtoken": "^8.2.0",
 		"koa": "^2.5.0",
 		"koa-body": "^2.5.0",
 		"koa-helmet": "^4.0.0",

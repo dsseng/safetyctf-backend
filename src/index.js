@@ -6,11 +6,11 @@ import router from './router'
 
 const app = new Koa()
 
-app.use(helmet());
+app.use(helmet())
 app.use(cors())
 app.use(bodyParser())
 app
   .use(router.routes())
-  .use(router.allowedMethods());
+  .use(router.allowedMethods())
 
-app.listen(3000);
+app.listen(3000)
