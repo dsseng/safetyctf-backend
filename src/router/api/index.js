@@ -1,11 +1,9 @@
 import Router from 'koa-router'
-import api from './api'
 
 const router = Router()
 
 router.get('/', (ctx, next) => {
-  ctx.body = 'Hello, World!'
+  ctx.body = 'Hello, API!'
 })
-router.use('/api', api.routes(), api.allowedMethods())
 
 export default router
