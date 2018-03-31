@@ -32,11 +32,14 @@
 	},
 	"dependencies": {
 		"@koa/cors": "2",
+		"aws-sdk": "^2.218.1",
+		"bcrypt": "^1.0.3",
 		"dotenv": "^5.0.1",
 		"jsonwebtoken": "^8.2.0",
 		"koa": "^2.5.0",
-		"koa-body": "^2.5.0",
+		"koa-bodyparser": "^4.2.0",
 		"koa-helmet": "^4.0.0",
-		"koa-router": "^7.4.0"
+		"koa-router": "^7.4.0",
+		"mongoose": "^5.0.12"
 	}
 }

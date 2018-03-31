@@ -1,8 +1,8 @@
 import Koa from 'koa'
 import helmet from 'koa-helmet'
 import cors from '@koa/cors'
-import bodyParser from 'koa-body'
 import router from './router'
+import bodyParser from 'koa-bodyparser'
 import dotenv from 'dotenv'
 
 dotenv.config()
