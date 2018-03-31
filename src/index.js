@@ -3,6 +3,9 @@ import helmet from 'koa-helmet'
 import cors from '@koa/cors'
 import bodyParser from 'koa-body'
 import router from './router'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const app = new Koa()
 
@@ -13,4 +16,4 @@ app
   .use(router.routes())
   .use(router.allowedMethods())
 
-app.listen(3000)
+app.listen(process.env.PORT)
