@@ -1,17 +1,8 @@
 import Router from 'koa-router'
 import jwt from 'jsonwebtoken'
 import jwtConfig from '../../../config/jwt'
-import mongoose from 'mongoose'
 import User from '../../../models/User'
 import 'babel-polyfill'
-import dotenv from 'dotenv'
-
-dotenv.config()
-
-mongoose.connect(process.env.DBURL)
-const db = mongoose.connection
-db.on('error', console.error.bind(console, 'Connection error:'))
-db.once('open', () => console.log('Connected to MongoDB!'))
 
 const router = Router()
 
