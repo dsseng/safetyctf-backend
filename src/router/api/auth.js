@@ -26,6 +26,7 @@ router.post('/register', async ctx => {
   } catch (err) {
     console.error(err)
     ctx.body = { code: 500, errData: err }
+    return
   }
 })
 
@@ -53,10 +54,12 @@ router.post('/login', async ctx => {
       }, jwtConfig.secret, jwtConfig.options), code: 200 }
     } else {
       ctx.body = { code: 401 }
+      return
     }
   } catch (err) {
     console.error(err)
     ctx.body = { code: 500, errData: err }
+    return
   }
 })
 
@@ -69,6 +72,7 @@ router.post('/refreshToken', ctx => {
   jwt.verify(ctx.request.body.token, jwtConfig.secret, (err, decoded) => {
     if (err) {
       ctx.body = { code: 401, err: err }
+      return
     } else {
       ctx.body = { token: jwt.sign({
         username: decoded.username,
