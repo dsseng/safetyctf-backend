@@ -39,6 +39,11 @@ router.post('/login', async ctx => {
   try {
     let user = await User.findOne({ username: ctx.request.body.username })
 
+    if (!user) {
+      ctx.body = { code: 404 }
+      return
+    }
+
     if (await user.comparePassword(ctx.request.body.password)) {
       ctx.body = { token: jwt.sign({
         username: user.username,
