@@ -41,7 +41,7 @@ router.post('/isAdmin', async ctx => {
       }
     } catch (err) {
       console.error(err)
-      ctx.body = { code: 500, errData: err }
+      ctx.body = { code: 500, err: err }
       return
     }
   } else {
@@ -57,12 +57,12 @@ router.post('/isAdmin', async ctx => {
         }
       } catch (err) {
         console.error(err)
-        ctx.body = { code: 500, errData: err }
+        ctx.body = { code: 500, err: err }
         return
       }
     } catch (err) {
       console.error(err)
-      ctx.body = { code: 400, errData: err }
+      ctx.body = { code: 400, err: err }
       return
     }
   }
@@ -74,7 +74,7 @@ router.get('/usersAndTasks', async ctx => {
     ctx.body = { usersCount: usersCount, tasksCount: 0, code: 200 }
   } catch (err) {
     console.error(err)
-    ctx.body = { code: 500, errData: err }
+    ctx.body = { code: 500, err: err }
     return
   }
 })
