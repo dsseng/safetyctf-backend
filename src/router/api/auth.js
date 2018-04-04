@@ -25,7 +25,7 @@ router.post('/register', async ctx => {
     ctx.body = { user: await newUser.save(), code: 200 }
   } catch (err) {
     console.error(err)
-    ctx.body = { code: 500, errData: err }
+    ctx.body = { code: 500, err: err }
     return
   }
 })
@@ -63,7 +63,7 @@ router.post('/login', async ctx => {
     }
   } catch (err) {
     console.error(err)
-    ctx.body = { code: 500, errData: err }
+    ctx.body = { code: 500, err: err }
     return
   }
 })
@@ -74,25 +74,61 @@ router.post('/refreshToken', ctx => {
     return
   }
 
-  jwt.verify(ctx.request.body.token, jwtConfig.secret, (err, decoded) => {
-    if (err) {
+  try {
+    let decoded = jwt.verify(ctx.request.body.token, jwtConfig.secret)
+
+    ctx.body = { token: jwt.sign({
+      username: decoded.username,
+      name: decoded.name,
+      surname: decoded.surname,
+      dob: decoded.dob,
+      role: decoded.role,
+      tasksSolved: decoded.tasksSolved,
+      money: decoded.money,
+      experience: decoded.experience,
+      registerDate: decoded.registerDate,
+      friends: decoded.friends
+    }, jwtConfig.secret, jwtConfig.options), code: 200 }
+  } catch (err) {
+    ctx.body = { code: 401, err: err }
+    return
+  }
+})
+
+router.post('/changePassword', async ctx => {
+  if (!ctx.request.body.token || !ctx.request.body.oldPassword || !ctx.request.body.newPassword) {
+    ctx.body = { code: 400 }
+    return
+  }
+
+  try {
+    let decoded = jwt.verify(ctx.request.body.token, jwtConfig.secret)
+
+    let user = await User.findOne({ username: decoded.username })
+    if (!user) {
+      ctx.body = { code: 404 }
+      return
+    }
+
+    if (!await user.comparePassword(ctx.request.body.oldPassword)) {
+      ctx.body = { code: 401 }
+      return
+    }
+
+    user.password = ctx.request.body.newPassword
+    await user.save()
+
+    ctx.body = { user: user, code: 202 }
+  } catch (err) {
+    if (err && err.name === 'TokenExpiredError') {
       ctx.body = { code: 401, err: err }
       return
-    } else {
-      ctx.body = { token: jwt.sign({
-        username: decoded.username,
-        name: decoded.name,
-        surname: decoded.surname,
-        dob: decoded.dob,
-        role: decoded.role,
-        tasksSolved: decoded.tasksSolved,
-        money: decoded.money,
-        experience: decoded.experience,
-        registerDate: decoded.registerDate,
-        friends: decoded.friends
-      }, jwtConfig.secret, jwtConfig.options), code: 200 }
     }
-  })
+
+    console.error(err)
+    ctx.body = { code: 500, err: err }
+    return
+  }
 })
 
 export default router
