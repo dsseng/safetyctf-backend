@@ -131,4 +131,31 @@ router.post('/changePassword', async ctx => {
   }
 })
 
+router.post('/getUserInfo', ctx => {
+  if (!ctx.request.body.token) {
+    ctx.body = { code: 400 }
+    return
+  }
+
+  try {
+    let decoded = jwt.verify(ctx.request.body.token, jwtConfig.secret)
+
+    ctx.body = { user: {
+      username: decoded.username,
+      name: decoded.name,
+      surname: decoded.surname,
+      dob: decoded.dob,
+      role: decoded.role,
+      tasksSolved: decoded.tasksSolved,
+      money: decoded.money,
+      experience: decoded.experience,
+      registerDate: decoded.registerDate,
+      friends: decoded.friends
+    }, code: 200 }
+  } catch (err) {
+    ctx.body = { code: 401, err: err }
+    return
+  }
+})
+
 export default router
