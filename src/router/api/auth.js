@@ -118,7 +118,7 @@ router.post('/changePassword', async ctx => {
     user.password = ctx.request.body.newPassword
     await user.save()
 
-    ctx.body = { user: user, code: 202 }
+    ctx.body = { user: user, code: 200 }
   } catch (err) {
     if (err && err.name === 'TokenExpiredError') {
       ctx.body = { code: 401, err: err }
