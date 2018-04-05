@@ -2,6 +2,7 @@ import Router from 'koa-router'
 import jwt from 'jsonwebtoken'
 import jwtConfig from '../../../config/jwt'
 import User from '../../../models/User'
+import Task from '../../../models/Task'
 import 'babel-polyfill'
 
 const router = Router()
@@ -70,8 +71,8 @@ router.post('/isAdmin', async ctx => {
 router.get('/usersAndTasks', async ctx => {
   try {
     let usersCount = (await User.find({})).length
-    // let tasksCount = (await Task.find({})).length
-    ctx.body = { usersCount: usersCount, tasksCount: 0, code: 200 }
+    let tasksCount = (await Task.find({})).length
+    ctx.body = { usersCount: usersCount, tasksCount: tasksCount, code: 200 }
   } catch (err) {
     console.error(err)
     ctx.body = { code: 500, err: err }
