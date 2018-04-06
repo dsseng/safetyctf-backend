@@ -16,7 +16,11 @@ const userSchema = mongoose.Schema({
   friends: { type: Array, default: [] }
 })
 userSchema.pre('save', async function () {
-  this.password = await bcrypt.hash(this.password, 10)
+  try {
+    bcrypt.getRounds(this.password)
+  } catch (err) {
+    this.password = await bcrypt.hash(this.password, 10)
+  }
 })
 userSchema.method('comparePassword', async function (pass) {
   return await bcrypt.compare(pass, this.password)

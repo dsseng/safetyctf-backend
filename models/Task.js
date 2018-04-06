@@ -14,7 +14,11 @@ const taskSchema = mongoose.Schema({
   url: { type: String }
 })
 taskSchema.pre('save', async function () {
-  this.flag = await bcrypt.hash(this.flag, 10)
+  try {
+    bcrypt.getRounds(this.flag)
+  } catch (err) {
+    this.flag = await bcrypt.hash(this.flag, 10)
+  }
 })
 taskSchema.method('comparePassword', async function (flag) {
   return await bcrypt.compare(flag, this.flag)
