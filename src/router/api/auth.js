@@ -140,4 +140,20 @@ router.get('/:username/info', async ctx => {
   }
 })
 
+router.post('/getUsername', async ctx => {
+  if (!ctx.request.body.token) {
+    ctx.body = { code: 400 }
+    return
+  }
+
+  try {
+    let decoded = jwt.verify(ctx.request.body.token, jwtConfig.secret)
+
+    ctx.body = { username: decoded.username, code: 200 }
+  } catch (err) {
+    ctx.body = { code: 401, err: err }
+    return
+  }
+})
+
 export default router
