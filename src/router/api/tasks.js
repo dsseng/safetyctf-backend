@@ -148,7 +148,7 @@ router.post('/:id/solved', async ctx => {
 
     if (foundUser.tasksSolved.find(x => x === ctx.params.id)) {
       ctx.body = { code: 415 }
-      return;
+      return
     }
 
     foundTask.solvedBy.push(payload.username)
@@ -162,6 +162,39 @@ router.post('/:id/solved', async ctx => {
     await foundUser.save()
 
     ctx.body = { code: 200 }
+  } catch (err) {
+    if (err.name && err.name === 'TokenExpiredError') {
+      ctx.body = { code: 401, err: err }
+      return
+    }
+
+    console.error(err)
+    ctx.body = { code: 500, err: err }
+  }
+})
+router.post('/:id/isSolved', async ctx => {
+  if (!ctx.request.body.token) {
+    ctx.body = { code: 400 }
+    return
+  }
+
+  try {
+    let payload = jwt.verify(ctx.request.body.token, jwtConfig.secret)
+
+    let foundUser = await User.findOne({ username: payload.username })
+
+    if (!foundUser) {
+      ctx.body = { code: 404 }
+      return
+    }
+
+    if (foundUser.tasksSolved.find(x => x === ctx.params.id)) {
+      ctx.body = { code: 200, solved: true }
+      return
+    } else {
+      ctx.body = { code: 200, solved: false }
+      return
+    }
   } catch (err) {
     if (err.name && err.name === 'TokenExpiredError') {
       ctx.body = { code: 401, err: err }
