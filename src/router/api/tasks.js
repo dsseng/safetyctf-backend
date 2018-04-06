@@ -1,5 +1,6 @@
 import Router from 'koa-router'
 import Task from '../../../models/Task'
+import User from '../../../models/User'
 import jwt from 'jsonwebtoken'
 import jwtConfig from '../../../config/jwt'
 
@@ -106,6 +107,61 @@ router.patch('/:id', async ctx => {
     await foundTask.save()
 
     ctx.body = { task: foundTask, code: 200 }
+  } catch (err) {
+    if (err.name && err.name === 'TokenExpiredError') {
+      ctx.body = { code: 401, err: err }
+      return
+    }
+
+    console.error(err)
+    ctx.body = { code: 500, err: err }
+  }
+})
+
+router.post('/:id/solved', async ctx => {
+  if (!ctx.request.body.token || !ctx.request.body.flag) {
+    ctx.body = { code: 400 }
+    return
+  }
+
+  try {
+    let payload = jwt.verify(ctx.request.body.token, jwtConfig.secret)
+
+    let foundTask = await Task.findOne({ id: ctx.params.id })
+
+    if (!foundTask) {
+      ctx.body = { code: 404 }
+      return
+    }
+
+    let foundUser = await User.findOne({ username: payload.username })
+
+    if (!foundUser) {
+      ctx.body = { code: 404 }
+      return
+    }
+
+    if (!await foundTask.comparePassword(ctx.request.body.flag)) {
+      ctx.body = { code: 418 }
+      return
+    }
+
+    if (foundUser.tasksSolved.find(x => x === ctx.params.id)) {
+      ctx.body = { code: 415 }
+      return;
+    }
+
+    foundTask.solvedBy.push(payload.username)
+
+    await foundTask.save()
+
+    foundUser.money = foundTask.money
+    foundUser.experience = foundTask.experience
+    foundUser.tasksSolved.push(ctx.params.id)
+
+    await foundUser.save()
+
+    ctx.body = { code: 200 }
   } catch (err) {
     if (err.name && err.name === 'TokenExpiredError') {
       ctx.body = { code: 401, err: err }
