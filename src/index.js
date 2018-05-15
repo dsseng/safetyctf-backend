@@ -23,4 +23,4 @@ app
   .use(router.routes())
   .use(router.allowedMethods())
 
-app.listen(process.env.PORT)
+app.listen(process.env.PORT, () => console.log('Backend API is listening on port ' + process.env.PORT))
