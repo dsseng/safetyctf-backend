@@ -13,13 +13,15 @@ router.post('/register', async ctx => {
     return
   }
 
+  let date = new Date().toISOString()
+
   let newUser = new User({
     name: ctx.request.body.name,
     surname: ctx.request.body.surname,
     dob: ctx.request.body.dob,
     username: ctx.request.body.username,
     password: ctx.request.body.password,
-    registerDate: Date().toISOString()
+    registerDate: date
   })
 
   try {
