@@ -19,7 +19,7 @@ router.post('/register', async ctx => {
     dob: ctx.request.body.dob,
     username: ctx.request.body.username,
     password: ctx.request.body.password,
-    registerDate: Date()
+    registerDate: Date().toISOString()
   })
 
   try {
