@@ -13,12 +13,7 @@ router.post('/register', async ctx => {
     return
   }
 
-<<<<<<< HEAD
   let date = new Date().toISOString()
-=======
-  let date = Date().toISOString()
-  date = date.substring(0, date.search('T'))
->>>>>>> 7075bd2b9e776c33d3e3fe1c6463e9f8d145abcb
 
   let newUser = new User({
     name: ctx.request.body.name,
