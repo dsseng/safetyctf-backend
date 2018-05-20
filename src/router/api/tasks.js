@@ -38,7 +38,7 @@ router.post('/', async ctx => {
     let newTask = new Task({
       name: ctx.request.body.name,
       flag: ctx.request.body.flag,
-      added: Date(),
+      added: new Date().toISOString(),
       money: ctx.request.body.money,
       experience: ctx.request.body.experience,
       by: payload.username,
@@ -99,7 +99,7 @@ router.patch('/:id', async ctx => {
 
     foundTask.name = ctx.request.body.name
     foundTask.flag = ctx.request.body.flag,
-    foundTask.added = Date(),
+    foundTask.added = new Date().toISOString(),
     foundTask.money = ctx.request.body.money,
     foundTask.experience = ctx.request.body.experience,
     foundTask.url = ctx.request.body.url
