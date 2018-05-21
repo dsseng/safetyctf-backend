@@ -24,6 +24,20 @@ router.post('/register', async ctx => {
     registerDate: date
   })
 
+  if (ctx.request.body.invitedBy) {
+    newUser.friends = [ ctx.request.body.invitedBy ]
+    newUser.money = 15
+    newUser.experience = 15
+
+    let inviter = await User.findOne({ username: ctx.request.body.invitedBy })
+
+    inviter.friends.push(newUser.username)
+    inviter.money += 15
+    inviter.experience += 15
+
+    inviter.save()
+  }
+
   try {
     ctx.body = { user: await newUser.save(), code: 200 }
   } catch (err) {
