@@ -148,35 +148,4 @@ router.post('/changePassword', async ctx => {
   }
 })
 
-router.get('/:username/info', async ctx => {
-  try {
-    let user = await User.findOne({ username: ctx.params.username })
-
-    let tasks = await Promise.all(user.tasksSolved.map(async t => await Task.findOne({ id: t })))
-
-    ctx.body = { user: user, tasksSolved: tasks, code: 200 }
-  } catch (err) {
-    console.error(err)
-    ctx.body = { code: 500, err: err }
-    return
-  }
-})
-
-router.post('/getUsername', async ctx => {
-  if (!ctx.request.body.token) {
-    ctx.body = { code: 400 }
-    return
-  }
-
-  try {
-    let decoded = jwt.verify(ctx.request.body.token, jwtConfig.secret)
-
-    ctx.body = { username: decoded.username, code: 200 }
-  } catch (err) {
-    ctx.body = { code: 401, err: err }
-    return
-  }
-})
-
-
 export default router
