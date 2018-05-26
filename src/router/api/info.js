@@ -68,7 +68,7 @@ router.post('/isAdmin', async ctx => {
     }
   }
 })
-router.get('/:username/info', async ctx => {
+router.get('/:username', async ctx => {
   try {
     let user = await User.findOne({ username: ctx.params.username })
 
