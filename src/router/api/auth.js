@@ -15,19 +15,20 @@ router.post('/register', async ctx => {
 
   let date = new Date().toISOString()
 
-  let newUser = new User({
-    name: ctx.request.body.name,
-    surname: ctx.request.body.surname,
-    dob: ctx.request.body.dob,
-    username: ctx.request.body.username,
-    password: ctx.request.body.password,
-    registerDate: date
-  })
+  let newUser
 
   if (ctx.request.body.invitedBy) {
-    newUser.friends = [ ctx.request.body.invitedBy ]
-    newUser.money = 15
-    newUser.experience = 15
+    newUser = new User({
+      name: ctx.request.body.name,
+      surname: ctx.request.body.surname,
+      dob: ctx.request.body.dob,
+      username: ctx.request.body.username,
+      password: ctx.request.body.password,
+      registerDate: date,
+      friends: [ ctx.request.body.invitedBy ],
+      money: 15,
+      experience: 15
+    })
 
     let inviter = await User.findOne({ username: ctx.request.body.invitedBy })
 
@@ -36,6 +37,15 @@ router.post('/register', async ctx => {
     inviter.experience += 15
 
     inviter.save()
+  } else {
+    newUser = new User({
+      name: ctx.request.body.name,
+      surname: ctx.request.body.surname,
+      dob: ctx.request.body.dob,
+      username: ctx.request.body.username,
+      password: ctx.request.body.password,
+      registerDate: date
+    })
   }
 
   try {
