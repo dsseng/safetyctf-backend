@@ -13,7 +13,8 @@ const userSchema = mongoose.Schema({
   username: { type: String, unique: true },
   password: { type: String },
   registerDate: { type: String },
-  friends: { type: Array, default: [] }
+  friends: { type: Array, default: [] },
+  pushToken: { type: String, default: '' }
 })
 userSchema.pre('save', async function () {
   try {

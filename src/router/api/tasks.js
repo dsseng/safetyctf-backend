@@ -3,6 +3,12 @@ import Task from '../../../models/Task'
 import User from '../../../models/User'
 import jwt from 'jsonwebtoken'
 import jwtConfig from '../../../config/jwt'
+import dotenv from 'dotenv'
+import FCM from 'fcm-node'
+
+dotenv.config()
+
+let fcm = new FCM(process.env.SERVER_KEY)
 
 const router = Router()
 
@@ -47,6 +53,27 @@ router.post('/', async ctx => {
     })
 
     await newTask.save()
+
+    let allUsers = await User.find({})
+    allUsers = allUsers.map(x => x.pushToken)
+
+    for (let user of allUsers) {
+      if (user) {
+        fcm.send({
+          to: user,
+          notification: {
+            title: 'New task available!',
+            body: 'You can solve ' + ctx.request.body.name + ' now!'
+          }
+        }, function (err, response) {
+          if (err) {
+            console.log('Something has gone wrong! Error: ', err)
+          } else {
+            console.log('Successfully sent with response: ', response)
+          }
+        })
+      }
+    }
 
     ctx.body = { task: newTask, code: 201 }
   } catch (err) {
