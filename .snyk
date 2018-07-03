@@ -13,8 +13,31 @@ ignore:
     - fcm-node > firebase-admin > jsonwebtoken > joi > topo > hoek:
         reason: No patch/update available
         expires: '2018-06-28T14:00:06.227Z'
+  'npm:deep-extend:20180409':
+    - bcrypt > node-pre-gyp > rc > deep-extend:
+        reason: Low severity
+        expires: '2018-08-02T09:38:58.369Z'
+  'npm:stringstream:20180511':
+    - bcrypt > node-pre-gyp > request > stringstream:
+        reason: None given
+        expires: '2018-08-02T09:38:58.369Z'
+  'npm:base64url:20180511':
+    - jsonwebtoken > jws > base64url:
+        reason: None given
+        expires: '2018-08-02T09:38:58.369Z'
+    - jsonwebtoken > jws > jwa > base64url:
+        reason: None given
+        expires: '2018-08-02T09:38:58.369Z'
+    - jsonwebtoken > jws > jwa > ecdsa-sig-formatter > base64url:
+        reason: None given
+        expires: '2018-08-02T09:38:58.369Z'
 # patches apply the minimum changes required to fix a vulnerability
 patch:
   'npm:ms:20170412':
     - fcm-node > firebase-admin > jsonwebtoken > ms:
         patched: '2018-05-29T13:56:15.794Z'
+  'npm:hoek:20180212':
+    - fcm-node > firebase-admin > jsonwebtoken > joi > hoek:
+        patched: '2018-07-03T09:35:10.608Z'
+    - fcm-node > firebase-admin > jsonwebtoken > joi > topo > hoek:
+        patched: '2018-07-03T09:35:10.608Z'
