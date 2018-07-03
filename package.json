@@ -12,6 +12,7 @@
     "build": "backpack build",
     "prepublish": "yarn run test",
     "snyk-protect": "snyk protect",
+    "snyk-wizard": "snyk wizard",
     "prepare": "yarn run snyk-protect"
   },
   "author": "sh7dm",
