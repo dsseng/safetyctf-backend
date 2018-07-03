@@ -182,8 +182,8 @@ router.post('/:id/solved', async ctx => {
 
     await foundTask.save()
 
-    foundUser.money = foundTask.money
-    foundUser.experience = foundTask.experience
+    foundUser.money += foundTask.money
+    foundUser.experience += foundTask.experience
     foundUser.tasksSolved.push(ctx.params.id)
 
     await foundUser.save()
