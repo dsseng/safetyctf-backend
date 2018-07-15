@@ -16,7 +16,7 @@ router.get('/', async ctx => {
   try {
     ctx.body = { tasks: await Task.find(), code: 200 }
   } catch (err) {
-    console.error(err)
+    debug('GET /tasks')('Error:', err)
     ctx.body = { code: 500, err: err }
   }
 })
@@ -67,7 +67,7 @@ router.post('/', async ctx => {
           }
         }, function (err, response) {
           if (err) {
-            console.log('Something has gone wrong! Error: ', err)
+            debug('POST /tasks')('Error:', err)
           } else {
             console.log('Successfully sent with response: ', response)
           }
@@ -82,7 +82,7 @@ router.post('/', async ctx => {
       return
     }
 
-    console.error(err)
+    debug('POST /tasks')('Error:', err)
     ctx.body = { code: 500, err: err }
   }
 })
@@ -99,7 +99,7 @@ router.get('/:id', async ctx => {
 
     ctx.body = { task: foundTask, code: 200 }
   } catch (err) {
-    console.error(err)
+    debug('GET /tasks/:id')('Error:', err)
     ctx.body = { code: 500, err: err }
   }
 })
@@ -140,7 +140,7 @@ router.patch('/:id', async ctx => {
       return
     }
 
-    console.error(err)
+    debug('PATCH /tasks/:id')('Error:', err)
     ctx.body = { code: 500, err: err }
   }
 })
@@ -195,7 +195,7 @@ router.post('/:id/solved', async ctx => {
       return
     }
 
-    console.error(err)
+    debug('/tasks/:id/solved')('Error:', err)
     ctx.body = { code: 500, err: err }
   }
 })
@@ -228,7 +228,7 @@ router.post('/:id/isSolved', async ctx => {
       return
     }
 
-    console.error(err)
+    debug('/tasks/:id/isSolved')('Error:', err)
     ctx.body = { code: 500, err: err }
   }
 })

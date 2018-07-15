@@ -21,7 +21,7 @@ router.post('/isRegistered', async ctx => {
       ctx.body = { registered: false, code: 200 }
     }
   } catch (err) {
-    console.error(err)
+    debug('/info/isRegistered')('Error:', err)
     ctx.body = { code: 500, errData: err }
     return
   }
@@ -41,7 +41,7 @@ router.post('/isAdmin', async ctx => {
         ctx.body = { admin: false, code: 200 }
       }
     } catch (err) {
-      console.error(err)
+      debug('/info/isAdmin')('Error:', err)
       ctx.body = { code: 500, err: err }
       return
     }
@@ -76,7 +76,7 @@ router.get('/:username', async ctx => {
 
     ctx.body = { user: user, tasksSolved: tasks, code: 200 }
   } catch (err) {
-    console.error(err)
+    debug('/info/:username')('Error:', err)
     ctx.body = { code: 500, err: err }
     return
   }

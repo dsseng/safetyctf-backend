@@ -23,12 +23,11 @@ router.post('/sub', async ctx => {
 
       ctx.body = { code: 200 }
     } catch (err) {
-      console.error(err)
+      debug('/push/sub')('Error:', err)
       ctx.body = { code: 500, err: err }
       return
     }
   } catch (err) {
-    console.error(err)
     ctx.body = { code: 401, err: err }
     return
   }

@@ -11,7 +11,7 @@ router.get('/usersAndTasks', async ctx => {
     let tasksCount = (await Task.find({})).length
     ctx.body = { usersCount: usersCount, tasksCount: tasksCount, code: 200 }
   } catch (err) {
-    console.error(err)
+    debug('/stats/usersAndTasks')('Error:', err)
     ctx.body = { code: 500, err: err }
     return
   }
@@ -36,7 +36,7 @@ router.get('/leaderboard', async ctx => {
 
     ctx.body = { users: users, code: 200 }
   } catch (err) {
-    console.error(err)
+    debug('/stats/leaderboard')('Error:', err)
     ctx.body = { code: 500, err: err }
     return
   }

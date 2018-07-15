@@ -5,13 +5,14 @@ import router from './router'
 import bodyParser from 'koa-bodyparser'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import debug from 'debug'
 
 dotenv.config()
 
 mongoose.connect(process.env.DBURL)
 const db = mongoose.connection
-db.on('error', console.error.bind(console, 'Connection error:'))
-db.once('open', () => console.log('Connected to MongoDB!'))
+db.on('error', err => debug('mongodb')('MongoDB error:', err))
+db.once('open', () => debug('mongodb')('connected to MongoDB'))
 
 const app = new Koa()
 
@@ -23,4 +24,4 @@ app
   .use(router.routes())
   .use(router.allowedMethods())
 
-app.listen(process.env.PORT, () => console.log('Backend API is listening on port ' + process.env.PORT))
+app.listen(process.env.PORT, () => debug('http')('backend API is listening on port ' + process.env.PORT))

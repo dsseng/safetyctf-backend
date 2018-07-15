@@ -51,7 +51,7 @@ router.post('/register', async ctx => {
   try {
     ctx.body = { user: await newUser.save(), code: 200 }
   } catch (err) {
-    console.error(err)
+    debug('/auth/register')('Error:', err)
     ctx.body = { code: 500, err: err }
     return
   }
@@ -89,7 +89,7 @@ router.post('/login', async ctx => {
       return
     }
   } catch (err) {
-    console.error(err)
+    debug('/auth/login')('Error:', err)
     ctx.body = { code: 500, err: err }
     return
   }
@@ -152,7 +152,7 @@ router.post('/changePassword', async ctx => {
       return
     }
 
-    console.error(err)
+    debug('/auth/changePassword')('Error:', err)
     ctx.body = { code: 500, err: err }
     return
   }
