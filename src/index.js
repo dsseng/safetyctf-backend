@@ -1,11 +1,11 @@
 import Koa from 'koa'
 import helmet from 'koa-helmet'
 import cors from '@koa/cors'
-import router from './router'
 import bodyParser from 'koa-bodyparser'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import debug from 'debug'
+import router from './router'
 
 dotenv.config()
 
