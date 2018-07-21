@@ -14,7 +14,7 @@ router.post('/isRegistered', async ctx => {
   }
 
   try {
-    let foundUser = await User.findOne({ username: ctx.request.body.username })
+    const foundUser = await User.findOne({ username: ctx.request.body.username })
     if (foundUser) {
       ctx.body = { registered: true, code: 200 }
     } else {
@@ -34,7 +34,7 @@ router.post('/isAdmin', async ctx => {
 
   if (ctx.request.body.username) {
     try {
-      let foundUser = await User.findOne({ username: ctx.request.body.username })
+      const foundUser = await User.findOne({ username: ctx.request.body.username })
       if (foundUser.role === 'admin') {
         ctx.body = { admin: true, code: 200 }
       } else {
@@ -47,10 +47,10 @@ router.post('/isAdmin', async ctx => {
     }
   } else {
     try {
-      let decoded = jwt.verify(ctx.request.body.token, jwtConfig.secret)
+      const decoded = jwt.verify(ctx.request.body.token, jwtConfig.secret)
 
       try {
-        let foundUser = await User.findOne({ username: decoded.username })
+        const foundUser = await User.findOne({ username: decoded.username })
         if (foundUser.role === 'admin') {
           ctx.body = { admin: true, code: 200 }
         } else {
@@ -70,9 +70,9 @@ router.post('/isAdmin', async ctx => {
 })
 router.get('/:username', async ctx => {
   try {
-    let user = await User.findOne({ username: ctx.params.username })
+    const user = await User.findOne({ username: ctx.params.username })
 
-    let tasks = await Promise.all(user.tasksSolved.map(async t => await Task.findOne({ id: t })))
+    const tasks = await Promise.all(user.tasksSolved.map(async t => await Task.findOne({ id: t })))
 
     ctx.body = { user: user, tasksSolved: tasks, code: 200 }
   } catch (err) {
@@ -88,7 +88,7 @@ router.post('/getUsername', async ctx => {
   }
 
   try {
-    let decoded = jwt.verify(ctx.request.body.token, jwtConfig.secret)
+    const decoded = jwt.verify(ctx.request.body.token, jwtConfig.secret)
 
     ctx.body = { username: decoded.username, code: 200 }
   } catch (err) {

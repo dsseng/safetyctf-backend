@@ -13,7 +13,7 @@ router.post('/sub', async ctx => {
   }
 
   try {
-    let decoded = jwt.verify(ctx.request.body.jwt, jwtConfig.secret)
+    const decoded = jwt.verify(ctx.request.body.jwt, jwtConfig.secret)
 
     try {
       let foundUser = await User.findOne({ username: decoded.username })

@@ -20,6 +20,7 @@ router.get('/', async ctx => {
     ctx.body = { code: 500, err: err }
   }
 })
+
 router.post('/', async ctx => {
   if (!ctx.request.body.token || !ctx.request.body.name || !ctx.request.body.flag || !ctx.request.body.money || !ctx.request.body.experience || !ctx.request.body.id || !ctx.request.body.url) {
     ctx.body = { code: 400 }
@@ -65,7 +66,7 @@ router.post('/', async ctx => {
             title: 'New task available!',
             body: 'You can solve ' + ctx.request.body.name + ' now!'
           }
-        }, function (err, response) {
+        }, (err, response) => {
           if (err) {
             debug('POST /tasks')('Error:', err)
           } else {
@@ -88,9 +89,8 @@ router.post('/', async ctx => {
 })
 
 router.get('/:id', async ctx => {
-
   try {
-    let foundTask = await Task.findOne({ id: ctx.params.id })
+    const foundTask = await Task.findOne({ id: ctx.params.id })
 
     if (!foundTask) {
       ctx.body = { code: 404 }
@@ -103,6 +103,7 @@ router.get('/:id', async ctx => {
     ctx.body = { code: 500, err: err }
   }
 })
+
 router.patch('/:id', async ctx => {
   if (!ctx.request.body.token || !ctx.request.body.name || !ctx.request.body.flag || !ctx.request.body.money || !ctx.request.body.experience || !ctx.request.body.url) {
     ctx.body = { code: 400 }
@@ -110,7 +111,7 @@ router.patch('/:id', async ctx => {
   }
 
   try {
-    let payload = jwt.verify(ctx.request.body.token, jwtConfig.secret)
+    const payload = jwt.verify(ctx.request.body.token, jwtConfig.secret)
 
     if (payload.role != 'admin') {
       ctx.body = { code: 401 }
@@ -152,7 +153,7 @@ router.post('/:id/solved', async ctx => {
   }
 
   try {
-    let payload = jwt.verify(ctx.request.body.token, jwtConfig.secret)
+    const payload = jwt.verify(ctx.request.body.token, jwtConfig.secret)
 
     let foundTask = await Task.findOne({ id: ctx.params.id })
 
@@ -199,6 +200,7 @@ router.post('/:id/solved', async ctx => {
     ctx.body = { code: 500, err: err }
   }
 })
+
 router.post('/:id/isSolved', async ctx => {
   if (!ctx.request.body.token) {
     ctx.body = { code: 400 }
@@ -206,9 +208,9 @@ router.post('/:id/isSolved', async ctx => {
   }
 
   try {
-    let payload = jwt.verify(ctx.request.body.token, jwtConfig.secret)
+    const payload = jwt.verify(ctx.request.body.token, jwtConfig.secret)
 
-    let foundUser = await User.findOne({ username: payload.username })
+    const foundUser = await User.findOne({ username: payload.username })
 
     if (!foundUser) {
       ctx.body = { code: 404 }

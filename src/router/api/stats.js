@@ -7,8 +7,8 @@ const router = Router()
 
 router.get('/usersAndTasks', async ctx => {
   try {
-    let usersCount = (await User.find({})).length
-    let tasksCount = (await Task.find({})).length
+    const usersCount = (await User.find({})).length
+    const tasksCount = (await Task.find({})).length
     ctx.body = { usersCount: usersCount, tasksCount: tasksCount, code: 200 }
   } catch (err) {
     debug('/stats/usersAndTasks')('Error:', err)

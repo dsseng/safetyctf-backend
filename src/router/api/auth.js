@@ -13,7 +13,7 @@ router.post('/register', async ctx => {
     return
   }
 
-  let date = new Date().toISOString()
+  const date = new Date().toISOString()
 
   let newUser
 
@@ -64,7 +64,7 @@ router.post('/login', async ctx => {
   }
 
   try {
-    let user = await User.findOne({ username: ctx.request.body.username })
+    const user = await User.findOne({ username: ctx.request.body.username })
 
     if (!user) {
       ctx.body = { code: 404 }
@@ -102,7 +102,7 @@ router.post('/refreshToken', ctx => {
   }
 
   try {
-    let decoded = jwt.verify(ctx.request.body.token, jwtConfig.secret)
+    const decoded = jwt.verify(ctx.request.body.token, jwtConfig.secret)
 
     ctx.body = { token: jwt.sign({
       username: decoded.username,
@@ -129,7 +129,7 @@ router.post('/changePassword', async ctx => {
   }
 
   try {
-    let decoded = jwt.verify(ctx.request.body.token, jwtConfig.secret)
+    const decoded = jwt.verify(ctx.request.body.token, jwtConfig.secret)
 
     let user = await User.findOne({ username: decoded.username })
     if (!user) {
