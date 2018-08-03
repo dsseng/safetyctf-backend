@@ -105,7 +105,7 @@ router.get('/:id', async ctx => {
 })
 
 router.patch('/:id', async ctx => {
-  if (!ctx.request.body.token || !ctx.request.body.name || !ctx.request.body.flag || !ctx.request.body.money || !ctx.request.body.experience || !ctx.request.body.url) {
+  if (!ctx.request.body.token) {
     ctx.body = { code: 400 }
     return
   }
