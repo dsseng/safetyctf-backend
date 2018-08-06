@@ -11,7 +11,8 @@ const taskSchema = mongoose.Schema({
   flag: { type: String },
   added: { type: String },
   by: { type: String },
-  url: { type: String }
+  url: { type: String },
+  difficulty: { type: Number }
 })
 taskSchema.pre('save', async function () {
   try {

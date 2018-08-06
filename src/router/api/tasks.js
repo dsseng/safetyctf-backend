@@ -22,7 +22,7 @@ router.get('/', async ctx => {
 })
 
 router.post('/', async ctx => {
-  if (!ctx.request.body.token || !ctx.request.body.name || !ctx.request.body.flag || !ctx.request.body.money || !ctx.request.body.experience || !ctx.request.body.id || !ctx.request.body.url) {
+  if (!ctx.request.body.token || !ctx.request.body.name || !ctx.request.body.flag || !ctx.request.body.money || !ctx.request.body.experience || !ctx.request.body.id || !ctx.request.body.url || !ctx.request.body.difficulty) {
     ctx.body = { code: 400 }
     return
   }
@@ -51,6 +51,7 @@ router.post('/', async ctx => {
       by: payload.username,
       id: ctx.request.body.id,
       url: ctx.request.body.url
+      difficulty: ctx.request.body.difficulty
     })
 
     await newTask.save()
@@ -126,11 +127,12 @@ router.patch('/:id', async ctx => {
     }
 
     foundTask.name = ctx.request.body.name
-    foundTask.flag = ctx.request.body.flag,
-    foundTask.added = new Date().toISOString(),
-    foundTask.money = ctx.request.body.money,
-    foundTask.experience = ctx.request.body.experience,
+    foundTask.flag = ctx.request.body.flag
+    foundTask.added = new Date().toISOString()
+    foundTask.money = ctx.request.body.money
+    foundTask.experience = ctx.request.body.experience
     foundTask.url = ctx.request.body.url
+    foundTask.difficulty = ctx.request.body.difficulty
 
     await foundTask.save()
 
