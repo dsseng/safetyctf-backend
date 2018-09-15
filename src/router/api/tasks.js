@@ -50,7 +50,7 @@ router.post('/', async ctx => {
       experience: ctx.request.body.experience,
       by: payload.username,
       id: ctx.request.body.id,
-      url: ctx.request.body.url
+      url: ctx.request.body.url,
       difficulty: ctx.request.body.difficulty
     })
 
