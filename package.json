@@ -4,7 +4,7 @@
   "description": "SafetyCTF backend",
   "main": "src/index.js",
   "scripts": {
-    "dev": "DEBUG=* backpack",
+    "dev": "DEBUG=\"*, -babel\" backpack",
     "test:lint": "eslint **/*.js",
     "test:safety": "snyk test",
     "test:unit": "jest",
